@@ -35,6 +35,34 @@ const Input = function ({ handleNewData }) {
       setLoading(false);
     }
   };
+  const handleDelete = async (e) => {
+    e.preventDefault(); // Prevent form from submitting the default way
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("http://localhost:3000/api/notes/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
+      // Clear input fields after successful submission
+      setTitle("");
+      setDescription("");
+      handleNewData(); // Trigger re-fetch of reminders
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="relative flex flex-col items-center p-4">

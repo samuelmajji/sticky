@@ -25,7 +25,6 @@ exports.createNotes = async (req, res) => {
 
 exports.deleteNote = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
 
   try {
     const deletedNote = await User.findByIdAndDelete(id);
